@@ -1,0 +1,132 @@
+mysql> select * from team;
++---------+-----------+--------------+
+| team_id | team_name | founded_date |
++---------+-----------+--------------+
+| T1      | aaa       | 2015-04-10   |
+| T2      | bbb       | 2015-06-10   |
+| T3      | ccc       | 2015-06-15   |
+| T4      | ddd       | 2016-03-15   |
+| T5      | fff       | 2016-06-20   |
++---------+-----------+--------------+
+5 rows in set (0.00 sec)
+
+mysql> select * from player;
++-----------+---------------+---------+------+--------+---------+-----------------+
+| player_id | name          | jersyno | age  | salary | team_id | height          |
++-----------+---------------+---------+------+--------+---------+-----------------+
+| P1        | Kyaw Kyaw     | 10      |   21 | 200000 | T1      | 5 feet 6 inches |
+| P10       | Mice          | 12      |   23 | 250000 | T2      | 5 feet 6 inches |
+| P11       | Saw Yan Naung | 22      |   21 | 300000 | T3      | 5 feet 7 inches |
+| P12       | Ye Jar        | 8       |   21 | 280000 | T3      | 5 feet 8 inches |
+| P13       | Khant Zaw     | 21      |   22 | 300000 | T3      | 5 feet 7 inches |
+| P14       | Zew Htet      | 7       |   23 | 280000 | T3      | 5 feet 6 inches |
+| P15       | Kaung Myat    | 19      |   22 | 300000 | T3      | 5 feet 5 inches |
+| P16       | Kyaw Htet     | 2       |   19 | 200000 | T4      | 5 feet 3 inches |
+| P17       | Aung Thura    | 5       |   18 | 180000 | T4      | 5 feet 3 inches |
+| P18       | Kyaw Thiha    | 11      |   19 | 180000 | T4      | 5 feet 4 inches |
+| P19       | Saw Tin Maung | 7       |   19 | 200000 | T4      | 5 feet 4 inches |
+| P2        | Maung Maung   | 2       |   20 | 200000 | T1      | 5 feet 5 inches |
+| P20       | Hein Thu      | 20      |   20 | 200000 | T4      | 5 feet 3 inches |
+| P21       | Saw Maung     | 9       |   22 | 250000 | T5      | 5 feet 5 inches |
+| P22       | Htut Myat     | 22      |   21 | 250000 | T5      | 5 feet 5 inches |
+| P23       | Kaung Kaung   | 16      |   20 | 230000 | T5      | 5 feet 5 inches |
+| P24       | Zaw Zaw       | 12      |   20 | 230000 | T5      | 5 feet 4 inches |
+| P25       | Ta Mahn       | 8       |   21 | 250000 | T5      | 5 feet 4 inches |
+| P3        | Aung Aung     | 7       |   22 | 220000 | T1      | 5 feet 6 inches |
+| P4        | Aung ko       | 11      |   20 | 200000 | T1      | 5 feet 7 inches |
+| P5        | Ko Ko         | 4       |   20 | 200000 | T1      | 5 feet 3 inches |
+| P6        | Thura         | 1       |   23 | 250000 | T2      | 5 feet 8 inches |
+| P7        | Thiha         | 5       |   22 | 250000 | T2      | 5 feet 6 inches |
+| P8        | Nada          | 8       |   25 | 280000 | T2      | 5 feet 5 inches |
+| P9        | James         | 6       |   22 | 240000 | T2      | 5 feet 6 inches |
++-----------+---------------+---------+------+--------+---------+-----------------+
+25 rows in set (0.10 sec)
+
+mysql> select * from player where team_id='T1';
++-----------+-------------+---------+------+--------+---------+-----------------+
+| player_id | name        | jersyno | age  | salary | team_id | height          |
++-----------+-------------+---------+------+--------+---------+-----------------+
+| P1        | Kyaw Kyaw   | 10      |   21 | 200000 | T1      | 5 feet 6 inches |
+| P2        | Maung Maung | 2       |   20 | 200000 | T1      | 5 feet 5 inches |
+| P3        | Aung Aung   | 7       |   22 | 220000 | T1      | 5 feet 6 inches |
+| P4        | Aung ko     | 11      |   20 | 200000 | T1      | 5 feet 7 inches |
+| P5        | Ko Ko       | 4       |   20 | 200000 | T1      | 5 feet 3 inches |
++-----------+-------------+---------+------+--------+---------+-----------------+
+5 rows in set (0.11 sec)
+
+mysql> select * from player where salary>250000;
++-----------+---------------+---------+------+--------+---------+-----------------+
+| player_id | name          | jersyno | age  | salary | team_id | height          |
++-----------+---------------+---------+------+--------+---------+-----------------+
+| P11       | Saw Yan Naung | 22      |   21 | 300000 | T3      | 5 feet 7 inches |
+| P12       | Ye Jar        | 8       |   21 | 280000 | T3      | 5 feet 8 inches |
+| P13       | Khant Zaw     | 21      |   22 | 300000 | T3      | 5 feet 7 inches |
+| P14       | Zew Htet      | 7       |   23 | 280000 | T3      | 5 feet 6 inches |
+| P15       | Kaung Myat    | 19      |   22 | 300000 | T3      | 5 feet 5 inches |
+| P8        | Nada          | 8       |   25 | 280000 | T2      | 5 feet 5 inches |
++-----------+---------------+---------+------+--------+---------+-----------------+
+6 rows in set (0.11 sec)
+
+mysql> select team_name,(select sum(salary) from player where team.team_id=player.team_id) as TotalSalary from team;
++-----------+-------------+
+| team_name | TotalSalary |
++-----------+-------------+
+| aaa       |     1020000 |
+| bbb       |     1270000 |
+| ccc       |     1460000 |
+| ddd       |      960000 |
+| fff       |     1210000 |
++-----------+-------------+
+5 rows in set (0.14 sec)
+
+mysql> select team_name,(select AVG(salary) from player where team.team_id=player.team_id) as AverageSalary from team;
++-----------+---------------+
+| team_name | AverageSalary |
++-----------+---------------+
+| aaa       |   204000.0000 |
+| bbb       |   254000.0000 |
+| ccc       |   292000.0000 |
+| ddd       |   192000.0000 |
+| fff       |   242000.0000 |
++-----------+---------------+
+5 rows in set (0.00 sec)
+
+mysql> select name,salary from player where salary in(select MAX(salary) from player);
++---------------+--------+
+| name          | salary |
++---------------+--------+
+| Saw Yan Naung | 300000 |
+| Khant Zaw     | 300000 |
+| Kaung Myat    | 300000 |
++---------------+--------+
+3 rows in set (0.00 sec)
+
+mysql> select name,salary from player where salary in(select MIN(salary) from player);
++------------+--------+
+| name       | salary |
++------------+--------+
+| Aung Thura | 180000 |
+| Kyaw Thiha | 180000 |
++------------+--------+
+2 rows in set (0.00 sec)
+
+mysql> select name from player where age>20 and salary>200000;
++---------------+
+| name          |
++---------------+
+| Mice          |
+| Saw Yan Naung |
+| Ye Jar        |
+| Khant Zaw     |
+| Zew Htet      |
+| Kaung Myat    |
+| Saw Maung     |
+| Htut Myat     |
+| Ta Mahn       |
+| Aung Aung     |
+| Thura         |
+| Thiha         |
+| Nada          |
+| James         |
++---------------+
+14 rows in set (0.00 sec)
